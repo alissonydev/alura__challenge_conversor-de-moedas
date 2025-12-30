@@ -3,6 +3,7 @@ package com.github.alissonydev.utils;
 import com.github.alissonydev.dtos.CurrencyDTO;
 import com.github.alissonydev.dtos.ExchangeRate;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -28,6 +29,9 @@ public class Converter {
                     .send(request , HttpResponse.BodyHandlers.ofString());
 
             return new Gson().fromJson(response.body() , ExchangeRate.class);
+        }
+        catch (JsonSyntaxException | IllegalStateException e) {
+            throw new RuntimeException("JsonSyntaxException " + e.getMessage());
         }
         catch (Exception e) {
             throw new RuntimeException(e);
